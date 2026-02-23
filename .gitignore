@@ -1,0 +1,9 @@
+data/raw/
+data/processed/
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.pth
+*.pt
+.DS_Store
+results/models/
