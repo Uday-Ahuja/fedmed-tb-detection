@@ -7,3 +7,5 @@ __pycache__/
 *.pt
 .DS_Store
 results/models/
+results/plots/*.png
+results/metrics/*.json
