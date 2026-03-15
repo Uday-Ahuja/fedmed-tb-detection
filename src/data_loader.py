@@ -81,7 +81,7 @@ def get_transforms(train=True):
         ])
 
 
-def load_shenzhen_data():
+def load_shenzhen_data(data_dir="data/raw/shenzhen"):
     """
     Load Shenzhen dataset and split into train/val/test.
     
@@ -94,10 +94,10 @@ def load_shenzhen_data():
         test_data: (image_paths, labels) for testing
     """
     
-    print(f"Loading data from: {DATA_RAW}")
+    print(f"Loading data from: {data_dir}")
     
     # Get all PNG files
-    all_files = glob.glob(os.path.join(DATA_RAW, "*.png"))
+    all_files = glob.glob(os.path.join(data_dir, "*.png"))
     print(f"Found {len(all_files)} total images")
     
     image_paths = []
@@ -147,55 +147,42 @@ def load_shenzhen_data():
     return (train_paths, train_labels), (val_paths, val_labels), (test_paths, test_labels)
 
 
-def get_data_loaders(batch_size=BATCH_SIZE):
-    """
-    Create PyTorch DataLoaders for train/val/test sets.
-    
-    DataLoader handles:
-    - Batching (grouping images)
-    - Shuffling (randomizing order)
-    - Parallel loading (faster)
-    
-    Returns:
-        train_loader, val_loader, test_loader
-    """
-    
+def get_data_loaders(data_dir="data/raw/shenzhen", batch_size=32):
+
     # Load and split data
-    train_data, val_data, test_data = load_shenzhen_data()
-    
-    # Create datasets with appropriate transforms
+    train_data, val_data, test_data = load_shenzhen_data(data_dir)
+
     train_dataset = TBDataset(
         train_data[0], train_data[1],
-        transform=get_transforms(train=True)  # With augmentation
+        transform=get_transforms(train=True)
     )
-    
+
     val_dataset = TBDataset(
         val_data[0], val_data[1],
-        transform=get_transforms(train=False)  # No augmentation
+        transform=get_transforms(train=False)
     )
-    
+
     test_dataset = TBDataset(
         test_data[0], test_data[1],
-        transform=get_transforms(train=False)  # No augmentation
+        transform=get_transforms(train=False)
     )
-    
-    # Create dataloaders
+
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
-        shuffle=True,      # Randomize order each epoch
-        num_workers=2,     # Parallel loading
-        pin_memory=True    # Faster GPU transfer
-    )
-    
-    val_loader = DataLoader(
-        val_dataset,
-        batch_size=batch_size,
-        shuffle=False,     # Keep same order for validation
+        shuffle=True,
         num_workers=2,
         pin_memory=True
     )
-    
+
+    val_loader = DataLoader(
+        val_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=2,
+        pin_memory=True
+    )
+
     test_loader = DataLoader(
         test_dataset,
         batch_size=batch_size,
@@ -203,10 +190,5 @@ def get_data_loaders(batch_size=BATCH_SIZE):
         num_workers=2,
         pin_memory=True
     )
-    
-    print(f"\nDataLoaders created:")
-    print(f"  Train batches: {len(train_loader)}")
-    print(f"  Val batches: {len(val_loader)}")
-    print(f"  Test batches: {len(test_loader)}")
-    
+
     return train_loader, val_loader, test_loader

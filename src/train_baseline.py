@@ -181,7 +181,7 @@ def train_baseline_model(num_epochs=NUM_EPOCHS, batch_size=BATCH_SIZE, learning_
     # Learning rate scheduler: reduce LR when validation loss plateaus
     # This helps model converge better
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='min', factor=0.5, patience=3, verbose=True
+        optimizer, mode='min', factor=0.1, patience=3
     )
     
     # Training history

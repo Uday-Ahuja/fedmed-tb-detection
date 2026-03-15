@@ -1,11 +1,13 @@
-data/raw/
-data/processed/
-*.pyc
+# datasets
+data/
+
+# training outputs
+results/
+
+# python cache
 __pycache__/
-.ipynb_checkpoints/
+*.pyc
+
+# model weights
 *.pth
 *.pt
-.DS_Store
-results/models/
-results/plots/*.png
-results/metrics/*.json
