@@ -39,7 +39,7 @@ MODEL_NAME = 'resnet50'
 # Training parameters
 BATCH_SIZE = 16        # Adjust based on your M1 memory
 NUM_EPOCHS = 10        # For Review 2, enough to see convergence
-LEARNING_RATE = 0.001  # Standard Adam learning rate
+LEARNING_RATE = 0.0005  # Standard Adam learning rate
 WEIGHT_DECAY = 1e-4    # L2 regularization
 
 # Data split ratios
